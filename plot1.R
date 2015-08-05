@@ -7,11 +7,11 @@ if(!exists("elecData")){
 
     ""
     #find where the 2880 observations for the 2 days we are interested in (1440 minutes/day) are located in the file
-    goodlines<-grep("^[12])/2/2007*",readLines(unz("elecdata.zip", "household_power_consumption.txt")))
+    goodlines<-grep("^((1|2)/2/2007)+",readLines(unz("elecdata.zip", "household_power_consumption.txt")))
     #get column names from the file first line
     noms <- strsplit(readLines(unz("elecdata.zip", "household_power_consumption.txt"),1),";")[[1]]
     #read from file
-    elecData <- read.table(unz("elecdata.zip", "household_power_consumption.txt"),sep=";",skip=goodlines[1]-1,nrows=2880,col.names=noms,na.strings="?")
+    elecData <- read.table(unz("elecdata.zip", "household_power_consumption.txt"),sep=";",skip=goodlines[1]-1,nrows=length(goodlines),col.names=noms,na.strings="?")
     #convert in R date format
     elecData$Date <- as.Date(strptime(elecData$Date,format="%d/%m/%Y"))
 }
@@ -19,7 +19,7 @@ if(!exists("elecData")){
 ##specific code for plot 1
 
 #open png
-png("plot1.png")
+png("plot1.png", width = 480, height = 480, units = "px")
 #create plot
 plot1 <- with(elecData,hist(Global_active_power,col="red",xlab="Global Active Power (kilowatts)",main="Global Active Power"))
 #close display
