@@ -15,8 +15,7 @@ if(!exists("elecData")){
     elecData$Date <- as.Date(strptime(elecData$Date,format="%d/%m/%Y"))
 }
 
-
-##specific code for plot 2
+##specific code for plot 3
 
 #add datetime column for automatic days labelling
 elecData$datetime<-as.POSIXct(paste(elecData$Date, elecData$Time), format="%Y-%m-%d %H:%M:%S")
@@ -34,3 +33,4 @@ lines(elecData$datetime,elecData$Sub_metering_3,col="blue")
 legend('topright','groups',c("Sub_metering_1","Sub_metering_2","Sub_metering_3"), col=c('black','red','blue'), lty=c(1,1,1))
 #close device
 dev.off()
+
